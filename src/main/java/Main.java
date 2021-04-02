@@ -1,3 +1,6 @@
+import Views.InputView;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -58,13 +61,19 @@ public class Main {
         }
         System.out.println(response.body());
 
-        //
-        //HttpResponse response = Unirest.post(API_URL)
-          //      .header("X-RapidAPI-Key", API_KEY)
-            //    .queryString("parameter", "value")
-              //  .field("parameter", "value")
-               // .asJson();
-        //
+        JFrame frame = new JFrame("GuiMain");
+        //Adds to the JFrame our main panel
+        frame.setContentPane(new InputView().getMainPanel());
+        //Set the default operation when closing the panel
+        //In this case, exit the program
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Changes the window size so that we can show every element
+        frame.pack();
+        //Make the JFrame visible
+        frame.setVisible(true);
+        //Setting the frame size to 500 x 500 (because it was too small initially)
+        frame.setSize(500,500);
+
     }
 
 }
