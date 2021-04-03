@@ -3,27 +3,29 @@ package Models;
 import java.util.List;
 
 public class MovieModel {
-    private String name;
-    private List<String> filmInformation;
+    private String title;
+    private String id;
+    private double rating;
 
-    public MovieModel(String name, List<String> filmInformation) {
-        this.name = name;
-        this.filmInformation = filmInformation;
+    public MovieModel(String title, String id) {
+        this.title = title;
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public MovieModel(String title, double rating) {
+        this.title = title;
+        this.rating = rating;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTitle() {
+        return title;
     }
 
-    public List<String> getFilmInformation() {
-        return filmInformation;
+    public String getId() {
+        return id;
     }
 
-    public void setFilmInformation(List<String> filmInformation) {
-        this.filmInformation = filmInformation;
+    public double getRating() {
+        return rating;
     }
 }
