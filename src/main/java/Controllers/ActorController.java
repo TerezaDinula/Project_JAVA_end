@@ -1,7 +1,9 @@
 package Controllers;
 
 import Models.ActorModel;
+import Models.MovieModel;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -57,4 +59,56 @@ public class ActorController {
         }
         return null;
     }
+
+    public ActorModel getName(String name) {
+        ActorModel actor = getName(name);
+        String id = actor.getId();
+
+
+        if (id != null) {
+            id = id.substring(7, 16);
+            try {
+                String url = baseUrl + "/actors/get-bio?nconst=" + id;
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("x-rapidapi-key", "90850d46cfmsha7a4832e12849e0p1aedb3jsnd59a9a34670b")
+                        .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                        .method("GET", HttpRequest.BodyPublishers.noBody())
+                        .build();
+                HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() != 200) {
+                    throw new RuntimeException("HttpResponseCode: " + response.statusCode());
+                } else {
+
+                    JSONParser parser = new JSONParser();
+                    JSONObject data = (JSONObject) parser.parse(response.body());
+                    String actorName = (String) data.get("name");
+
+               //     return new ActorModel(name, actorName);
+                }
+                List<ActorModel> result = new ArrayList<>();
+                for (Object object : actorName) {
+                    JSONObject actorCredentials = (JSONObject) object;
+                    try {
+                        String actorActress = actorCredentials.get("name").toString();
+                  //      String actorId = actorCredentials.get("id").toString();
+
+                        result.add(new ActorModel(actorActress));
+                    } catch (NullPointerException ignored) {
+                    }
+                    System.out.println(result);
+                }
+                System.out.println("Result:" + result.toString());
+                return result.get(0);
+
+            } catch (IOException | ParseException | InterruptedException e) {
+                e.printStackTrace();
+            } catch (NullPointerException ignored) {
+            }
+        }
+        return null;
+    }
+
 }

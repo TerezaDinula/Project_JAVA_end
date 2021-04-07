@@ -28,12 +28,13 @@ public class InputView {
 
 
         showActorsButton.addActionListener(e -> {
-            List<ActorModel> models = actorController.getActorId();
+            List<ActorModel> result = actorController.getName(actorName);
             StringBuilder builder = new StringBuilder();
             for (ActorModel model : models) {
                 builder.append(model.getId()).append(", ");
             }
-            JOptionPane.showMessageDialog(mainPanel, builder.toString());
+           // JOptionPane.showMessageDialog(mainPanel, builder.toString());
+            JOptionPane.showMessageDialog(mainPanel, models.getName() + ", " );
         });
     }
 
