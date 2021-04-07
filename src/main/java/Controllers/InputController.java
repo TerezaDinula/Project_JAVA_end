@@ -33,7 +33,8 @@ public class InputController {
                     .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() != 200) {
                 throw new RuntimeException("HttpResponseCode: " + response.statusCode());
@@ -43,27 +44,32 @@ public class InputController {
                 JSONObject data = (JSONObject) parser.parse(response.body());
                 JSONArray movies = (JSONArray) data.get("results");
 
+                System.out.println(movies);
+
                 List<MovieModel> result = new ArrayList<>();
                 for (Object object : movies) {
                     JSONObject movie = (JSONObject) object;
+                    try {
+                        String movieTitle = movie.get("title").toString();
+                        String id = movie.get("id").toString();
 
-                    for (int i = 0; i < movies.size(); i++) {
-                        result.add(new MovieModel(movie.get("title").toString(), movie.get("id").toString()));
+                        result.add(new MovieModel(movieTitle, id));
+                    } catch (NullPointerException ignored) {
                     }
+                    System.out.println(result);
                 }
                 System.out.println("Result:" + result.toString());
                 return result.get(0);
             }
         } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
-        } catch (NullPointerException ignored) {
         }
         return null;
     }
 
     public MovieModel getRating(String title) {
         MovieModel movie = getMovie(title);
-        String id = movie.getId(); //Q to Arturs: What to do with exception if there is no movie?
+        String id = movie.getId();
         String movieTitle = movie.getTitle();
 
         if (id != null) {
