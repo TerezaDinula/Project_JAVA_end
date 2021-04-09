@@ -6,6 +6,10 @@ import Models.ActorModel;
 import Models.MovieModel;
 
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.util.List;
 
 public class InputView {
@@ -14,6 +18,7 @@ public class InputView {
     private JButton showRatingButton;
     private JButton showActorsButton;
     private JPanel mainPanel;
+    private JScrollPane outputScrollPane;
     private final InputController controller; //final never changes it's value
     private final ActorController actorController;
 
@@ -28,13 +33,13 @@ public class InputView {
 
 
         showActorsButton.addActionListener(e -> {
-            List<ActorModel> result = actorController.getName(actorName);
+
+            List<ActorModel> models = (List<ActorModel>) actorController.getActorIds();
             StringBuilder builder = new StringBuilder();
             for (ActorModel model : models) {
-                builder.append(model.getId()).append(", ");
+                builder.append(model.getName()).append("\n");
             }
-           // JOptionPane.showMessageDialog(mainPanel, builder.toString());
-            JOptionPane.showMessageDialog(mainPanel, models.getName() + ", " );
+            JOptionPane.showMessageDialog(mainPanel, builder.toString());
         });
     }
 
@@ -42,3 +47,4 @@ public class InputView {
         return mainPanel;
     }
 }
+

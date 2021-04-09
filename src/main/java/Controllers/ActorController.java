@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.ActorModel;
-import Models.MovieModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,7 +22,7 @@ public class ActorController {
         this.baseUrl = baseUrl;
     }
 
-    public List<ActorModel> getActorId() {
+    public Object getActorIds() {
         LocalDate now = LocalDate.now();
         String month = String.valueOf(now.getMonth().getValue());
         String day = String.valueOf(now.getDayOfMonth());
@@ -45,10 +44,14 @@ public class ActorController {
             } else {
                 JSONParser parser = new JSONParser();
                 JSONArray data = (JSONArray) parser.parse(response.body());
+
+
                 List<ActorModel> actorsList = new ArrayList<>();
                 System.out.println(data.toString());
                 for (Object value : data) {
-                    actorsList.add(new ActorModel(value.toString().substring(6, 15)));
+                    ActorModel a = new ActorModel(value.toString().substring(6, 15));
+                    actorsList.add(a);
+                    a.setName(getName(a.getId()));
                 }
                 actorsList.add(new ActorModel("1234"));
                 return actorsList;
@@ -60,13 +63,8 @@ public class ActorController {
         return null;
     }
 
-    public ActorModel getName(String name) {
-        ActorModel actor = getName(name);
-        String id = actor.getId();
-
-
+    public String getName(String id) {
         if (id != null) {
-            id = id.substring(7, 16);
             try {
                 String url = baseUrl + "/actors/get-bio?nconst=" + id;
 
@@ -85,24 +83,8 @@ public class ActorController {
                     JSONParser parser = new JSONParser();
                     JSONObject data = (JSONObject) parser.parse(response.body());
                     String actorName = (String) data.get("name");
-
-               //     return new ActorModel(name, actorName);
+                    return actorName;
                 }
-                List<ActorModel> result = new ArrayList<>();
-                for (Object object : actorName) {
-                    JSONObject actorCredentials = (JSONObject) object;
-                    try {
-                        String actorActress = actorCredentials.get("name").toString();
-                  //      String actorId = actorCredentials.get("id").toString();
-
-                        result.add(new ActorModel(actorActress));
-                    } catch (NullPointerException ignored) {
-                    }
-                    System.out.println(result);
-                }
-                System.out.println("Result:" + result.toString());
-                return result.get(0);
-
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();
             } catch (NullPointerException ignored) {
@@ -110,5 +92,4 @@ public class ActorController {
         }
         return null;
     }
-
 }
