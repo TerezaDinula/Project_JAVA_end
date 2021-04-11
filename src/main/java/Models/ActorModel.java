@@ -2,12 +2,7 @@ package Models;
 
 public class ActorModel {
     private String name;
-    private String id;
-
-    public ActorModel(String name, String id) {
-        this.name = name;
-        this.id = id;
-    }
+    private final String id;
 
     public ActorModel(String id) {
         this.id = id;

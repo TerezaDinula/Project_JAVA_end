@@ -32,7 +32,7 @@ public class ActorController {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("x-rapidapi-key", "90850d46cfmsha7a4832e12849e0p1aedb3jsnd59a9a34670b")
+                    .header("x-rapidapi-key", "47fd2465e7mshb6c4fcd9dc8b0cbp1d9085jsn36730bf01db9")
                     .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
@@ -45,15 +45,12 @@ public class ActorController {
                 JSONParser parser = new JSONParser();
                 JSONArray data = (JSONArray) parser.parse(response.body());
 
-
                 List<ActorModel> actorsList = new ArrayList<>();
-                System.out.println(data.toString());
                 for (Object value : data) {
                     ActorModel a = new ActorModel(value.toString().substring(6, 15));
                     actorsList.add(a);
                     a.setName(getName(a.getId()));
                 }
-                actorsList.add(new ActorModel("1234"));
                 return actorsList;
             }
         } catch (IOException | InterruptedException | ParseException e) {
@@ -70,11 +67,12 @@ public class ActorController {
 
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
-                        .header("x-rapidapi-key", "90850d46cfmsha7a4832e12849e0p1aedb3jsnd59a9a34670b")
+                        .header("x-rapidapi-key", "47fd2465e7mshb6c4fcd9dc8b0cbp1d9085jsn36730bf01db9")
                         .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
                         .build();
-                HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                HttpResponse<String> response = HttpClient.newHttpClient()
+                        .send(request, HttpResponse.BodyHandlers.ofString());
 
                 if (response.statusCode() != 200) {
                     throw new RuntimeException("HttpResponseCode: " + response.statusCode());
@@ -82,8 +80,7 @@ public class ActorController {
 
                     JSONParser parser = new JSONParser();
                     JSONObject data = (JSONObject) parser.parse(response.body());
-                    String actorName = (String) data.get("name");
-                    return actorName;
+                    return (String) data.get("name");
                 }
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();

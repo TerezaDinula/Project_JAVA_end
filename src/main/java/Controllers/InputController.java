@@ -29,7 +29,7 @@ public class InputController {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("x-rapidapi-key", "90850d46cfmsha7a4832e12849e0p1aedb3jsnd59a9a34670b")
+                    .header("x-rapidapi-key", "47fd2465e7mshb6c4fcd9dc8b0cbp1d9085jsn36730bf01db9")
                     .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
@@ -44,8 +44,6 @@ public class InputController {
                 JSONObject data = (JSONObject) parser.parse(response.body());
                 JSONArray movies = (JSONArray) data.get("results");
 
-                System.out.println(movies);
-
                 List<MovieModel> result = new ArrayList<>();
                 for (Object object : movies) {
                     JSONObject movie = (JSONObject) object;
@@ -56,9 +54,7 @@ public class InputController {
                         result.add(new MovieModel(movieTitle, id));
                     } catch (NullPointerException ignored) {
                     }
-                    System.out.println(result);
                 }
-                System.out.println("Result:" + result.toString());
                 return result.get(0);
             }
         } catch (IOException | InterruptedException | ParseException e) {
@@ -79,7 +75,7 @@ public class InputController {
 
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
-                        .header("x-rapidapi-key", "90850d46cfmsha7a4832e12849e0p1aedb3jsnd59a9a34670b")
+                        .header("x-rapidapi-key", "47fd2465e7mshb6c4fcd9dc8b0cbp1d9085jsn36730bf01db9")
                         .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
                         .method("GET", HttpRequest.BodyPublishers.noBody())
                         .build();
@@ -88,11 +84,9 @@ public class InputController {
                 if (response.statusCode() != 200) {
                     throw new RuntimeException("HttpResponseCode: " + response.statusCode());
                 } else {
-
                     JSONParser parser = new JSONParser();
                     JSONObject data = (JSONObject) parser.parse(response.body());
                     double rating = (double) data.get("rating");
-
                     return new MovieModel(movieTitle, rating);
                 }
             } catch (IOException | ParseException | InterruptedException e) {

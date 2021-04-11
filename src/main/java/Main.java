@@ -14,9 +14,7 @@ public class Main {
         frame.pack();
         //Make the JFrame visible
         frame.setVisible(true);
-        //Setting the frame size to 500 x 500 (because it was too small initially)
-        frame.setSize(500, 500);
-
+        //Setting the frame size to 500 x 500
+        frame.setSize(500, 300);
     }
-
 }

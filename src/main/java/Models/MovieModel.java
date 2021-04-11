@@ -1,9 +1,7 @@
 package Models;
 
-import java.util.List;
-
 public class MovieModel {
-    private String title;
+    private final String title;
     private String id;
     private double rating;
 
