@@ -40,7 +40,6 @@ public class InputView {
             responseMessage.setBorder(null);
             responseMessage.setEditable(false);
             responseMessage.setFocusable(false);
-            responseMessage.setLineWrap(true);
             JOptionPane.showMessageDialog(mainPanel, responseMessage);
         });
     }
